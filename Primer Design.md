@@ -5,7 +5,7 @@ I used the scafold sequence as input query for Primer Blast. Specified that the 
 The top 10 primers were shown. I went through them manually to see which one is the best base on the following criteria:
   - doesn't start with long "TTTT"
   - have lower number of self-completarity
-  - melting point closer to 60C as possible
+  - melting point closer to 60C
   - reasonable GC content
 
 The below primer pair is the best among the result after consider the above criteria:

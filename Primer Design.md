@@ -21,7 +21,7 @@ Forward primer	TAGTTACAAATGGTGGGTTCTGA	Plus	23	997	1019	57.43	39.13	3.00	3.00
 Reverse primer	CACTTTGCCTCACCCTCATAG	Minus	21	1456	1436	58.36	52.38	3.00	2.00
 Product length	460
 ```
-This was chosen among the others:
+The above was chosen among the others(below):
 ```
 
 Sequence (5'->3')	Template strand	Length	Start	Stop	Tm	GC%	Self complementarity	Self 3' complementarity

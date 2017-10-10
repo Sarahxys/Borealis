@@ -1,7 +1,7 @@
 Purpose: design primer to amplify the maybe sex-linked Borealis transcript
 
 # Primer Blast
-I used the scafold sequence as input query for Primer Blast. Specified that the forward primer range as 961-1049 and reverse primer range as 14001509.
+I used the scafold sequence as input query for Primer Blast. Specified that the forward primer range as 961-1049 and reverse primer range as 1400-1509.
 The top 10 primers were shown. I went through them manually to see which one is the best base on the following criteria:
   - doesn't start with long "TTTT"
   - have lower number of self-completarity

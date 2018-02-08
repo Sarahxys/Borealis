@@ -32,3 +32,23 @@ https://samtools.github.io/bcftools/bcftools.html
 ```
 http://bio-bwa.sourceforge.net/bwa.shtml#4
 ```
+
+### Cufflink
+```
+http://www.cureffi.org/2013/11/18/an-mrna-seq-pipeline-using-gsnap-samtools-cufflinks-and-bedtools/
+```
+
+### Stampy
+```
+http://www.well.ox.ac.uk/~gerton/README.txt
+```
+
+### Mummer
+```
+http://mummer.sourceforge.net/
+```
+
+### Lastz
+```
+http://www.bx.psu.edu/~rsharris/lastz/README.lastz-1.04.00.html
+```

@@ -19,6 +19,7 @@ target_id	length	eff_length	est_counts	tpm
 ENST00000513300.5	1924	1746.98	102.328	11129.2
 ENST00000282507.7	2355	2177.98	1592.02	138884
 ```
+- Manual and more detail
 ```
 https://scilifelab.github.io/courses/rnaseq/labs/kallisto
 https://www.nature.com/articles/nbt.3519

@@ -30,6 +30,23 @@ https://scilifelab.github.io/courses/rnaseq/labs/kallisto
 https://www.nature.com/articles/nbt.3519
 
 ```
+- When running the quantificaiton step, the following is being done by kallisto:
+```
+[quant] fragment length distribution is truncated gaussian with mean = 100, sd = 20
+[index] k-mer length: 31
+[index] number of targets: 207,184
+[index] number of k-mers: 97,165,340
+[index] number of equivalence classes: 404,675
+[quant] running in single-end mode
+[quant] will process file 1: /dev/fd/63
+[quant] finding pseudoalignments for the reads ... done
+[quant] processed 32,940,730 reads, 28,824,784 reads pseudoaligned
+[   em] quantifying the abundances ... done
+[   em] the Expectation-Maximization algorithm ran for 1,258 rounds
+[bstrp] running EM for the bootstrap: 100
+
+```
+
 
 ## RSEM
 

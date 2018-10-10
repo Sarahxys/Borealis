@@ -52,6 +52,7 @@ https://www.nature.com/articles/nbt.3519
 
 
 ## EdgeR
+R bioconductor that use raw read count and negative bionomial distribution for RNAseq differential analysis. For RNAseq DE analysis using edgeR, please refer to this page where I document the step of analysis. 
 
 
 ## DESeq2

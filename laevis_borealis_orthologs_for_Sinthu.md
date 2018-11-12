@@ -1,69 +1,6 @@
 # Finding borealis orthologs for laevis gene primers
-## steps
-- [x] make a fasta file with the primer sequences
-- [x] blast the primer sequence to the laevis genome blastn database
-- [ ] find the orthologs
-- [ ] extract the sequence of the ortholog transcript 
 
-## Primer sequence file
-the path to the file
-```
-/home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/xl_pcr_primer.fa
-```
-the file:
-```
->ef1a_forward
-CCAGATTGGTGCTGGATATG
->ef1a_reverse
-TTCTGAGCAGACTTTGTGAC
->vlg1_forward
-GCTGCCAGAGGCTTGGATAT
->vlg1_reverse
-ACTTGCTCTGCTTGCGATTG
->cyp17a1
-TGAGTGACAGGAGAATTCTG
->cyp17a1
-CGGTGCTACAGGGCGAATGC
-```
-
-## blastn
-blastn the primer sequence to the blastn database
-```
-time blastn -task blastn -db /home/xue/genome_data/laevis_genome/db_blastn_laevisGenome/Xl9_2_blastn_db -outfmt 6 -evalue 0.05 -query /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/xl_pcr_primer.fa -out /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/xl_pcr_primer_xl_genome_blastn_out.tsv
-```
-the path to the output file
-```
-/home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/xl_pcr_primer_xl_genome_blastn_out.tsv
-```
-the output file
-```
-ef1a_forward    chr1S   100.000 20      0       0       1       20      172086003       172086022       0.046   37.4
-ef1a_forward    Scaffold28      100.000 20      0       0       1       20      946694  946675  0.046   37.4
-ef1a_forward    chr5S   100.000 20      0       0       1       20      73756436        73756455        0.046   37.4
-ef1a_forward    chr5S   100.000 20      0       0       1       20      79735631        79735612        0.046   37.4
-ef1a_reverse    Scaffold28      100.000 20      0       0       1       20      946278  946297  0.046   37.4
-ef1a_reverse    chr5S   100.000 20      0       0       1       20      73756840        73756821        0.046   37.4
-ef1a_reverse    chr5S   100.000 20      0       0       1       20      79735319        79735338        0.046   37.4
-vlg1_forward    chr1L   100.000 20      0       0       1       20      195224567       195224548       0.046   37.4
-vlg1_reverse    chr1L   100.000 20      0       0       1       20      195218533       195218552       0.046   37.4
-cyp17a1 Scaffold61      100.000 20      0       0       1       20      424102  424083  0.046   37.4
-cyp17a1 Scaffold61      100.000 20      0       0       1       20      424029  424048  0.046   37.4
-```
-
-## borealise orthologs
-```
-
-```
-
-
-
-
-
-
-
-
-# this might be a wrong way to do it
-## steps
+## steps - Current, might not be the best way
 - [x] make a fasta file with the primer sequences
 - [x] build a build blastn database for borealise transcriptomes
 - [x] blast the primer sequence to the blastn database
@@ -137,6 +74,64 @@ perl ~/script/extract_sequence.pl xl_pcr_primer_xb_transcriptome_blastn_out.tsv 
 The path to the sequence file is:
 ```
 /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/transcript_sequence.fa
+```
+
+
+# Second way to do it
+## steps
+- [x] make a fasta file with the primer sequences
+- [x] blast the primer sequence to the laevis genome blastn database
+- [ ] find the orthologs
+- [ ] extract the sequence of the ortholog transcript 
+
+## Primer sequence file
+the path to the file
+```
+/home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/xl_pcr_primer.fa
+```
+the file:
+```
+>ef1a_forward
+CCAGATTGGTGCTGGATATG
+>ef1a_reverse
+TTCTGAGCAGACTTTGTGAC
+>vlg1_forward
+GCTGCCAGAGGCTTGGATAT
+>vlg1_reverse
+ACTTGCTCTGCTTGCGATTG
+>cyp17a1
+TGAGTGACAGGAGAATTCTG
+>cyp17a1
+CGGTGCTACAGGGCGAATGC
+```
+
+## blastn
+blastn the primer sequence to the blastn database
+```
+time blastn -task blastn -db /home/xue/genome_data/laevis_genome/db_blastn_laevisGenome/Xl9_2_blastn_db -outfmt 6 -evalue 0.05 -query /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/xl_pcr_primer.fa -out /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/xl_pcr_primer_xl_genome_blastn_out.tsv
+```
+the path to the output file
+```
+/home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/xl_pcr_primer_xl_genome_blastn_out.tsv
+```
+the output file
+```
+ef1a_forward    chr1S   100.000 20      0       0       1       20      172086003       172086022       0.046   37.4
+ef1a_forward    Scaffold28      100.000 20      0       0       1       20      946694  946675  0.046   37.4
+ef1a_forward    chr5S   100.000 20      0       0       1       20      73756436        73756455        0.046   37.4
+ef1a_forward    chr5S   100.000 20      0       0       1       20      79735631        79735612        0.046   37.4
+ef1a_reverse    Scaffold28      100.000 20      0       0       1       20      946278  946297  0.046   37.4
+ef1a_reverse    chr5S   100.000 20      0       0       1       20      73756840        73756821        0.046   37.4
+ef1a_reverse    chr5S   100.000 20      0       0       1       20      79735319        79735338        0.046   37.4
+vlg1_forward    chr1L   100.000 20      0       0       1       20      195224567       195224548       0.046   37.4
+vlg1_reverse    chr1L   100.000 20      0       0       1       20      195218533       195218552       0.046   37.4
+cyp17a1 Scaffold61      100.000 20      0       0       1       20      424102  424083  0.046   37.4
+cyp17a1 Scaffold61      100.000 20      0       0       1       20      424029  424048  0.046   37.4
+```
+
+## borealise orthologs
+```
+
 ```
 
 

@@ -69,7 +69,7 @@ The perl script that I wrote will read in the blastn out file, find the transcri
 ```
 perl ~/script/extract_sequence.pl xl_pcr_primer_xb_transcriptome_blastn_out.tsv /home/xue/borealis_transcriptome/borealis_denovo_transcriptome_oct2018/borealis_denovo_oct2018_trinityout.Trinity.fasta 2 > transcript_sequence.fa
 ```
-The sequence of the transcripts are:
+The path to the sequence file is:
 ```
 /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/transcript_sequence.fa
 ```

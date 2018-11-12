@@ -45,6 +45,7 @@ the path to the output file
 ```
 the output file
 ```
+qseqid sseqid pident length mismatch gapopen qstart qend sstart send evalue bitscore
 ef1a_forward    TRINITY_DN145449_c3_g2_i12      100.000 20      0       0       1       20      1895    1914    0.017   37.4
 ef1a_forward    TRINITY_DN145449_c3_g2_i10      100.000 20      0       0       1       20      1640    1659    0.017   37.4
 ef1a_forward    TRINITY_DN145449_c3_g2_i2       100.000 20      0       0       1       20      1756    1775    0.017   37.4

@@ -106,7 +106,7 @@ CGGTGCTACAGGGCGAATGC
 ```
 
 ## blastn
-blastn the primer sequence to the blastn database
+blastn the primer sequence to the laevis xl9_2 genome
 ```
 time blastn -task blastn -db /home/xue/genome_data/laevis_genome/db_blastn_laevisGenome/Xl9_2_blastn_db -outfmt 6 -evalue 0.05 -query /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/xl_pcr_primer.fa -out /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/xl_pcr_primer_xl_genome_blastn_out.tsv
 ```

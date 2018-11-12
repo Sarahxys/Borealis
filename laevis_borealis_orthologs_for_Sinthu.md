@@ -1,4 +1,4 @@
-# Finding borealis orthologs for 3 laevis gene primers
+# Finding borealis orthologs for laevis gene primers
 ## steps
 - [x] make a fasta file with the primer sequences
 - [x] build a build blastn database for borealise transcriptomes

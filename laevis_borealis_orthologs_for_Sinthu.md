@@ -75,6 +75,13 @@ The path to the sequence file is:
 ```
 /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/transcript_sequence.fa
 ```
+Found out where those transcript mapped to
+```
+#by blastn
+time blastn -task blastn -db /home/xue/genome_data/laevis_genome/db_blastn_laevisGenome/Xl9_2_blastn_db -outfmt 6 -evalue 0.05 -query /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/transcript_sequence.fa -out /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/xb_transcript_sequence_xl_genome_blastout.tsv
+#by gmap
+```
+
 
 
 # Second way to do it

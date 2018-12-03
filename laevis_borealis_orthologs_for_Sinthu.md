@@ -130,8 +130,13 @@ cyp17a1 Scaffold61      100.000 20      0       0       1       20      424029  
 ```
 
 ## borealise orthologs
+borealise transcriptome blastn index
 ```
-
+/home/xue/borealis_transcriptome/borealis_denovo_transcriptome_august2017/db_borrealis_transcriptome_blastn/db_borrealis_transcriptome_blastn
+```
+blastn xl gene to borealis
+```
+time blastn -task blastn -db /home/xue/borealis_transcriptome/borealis_denovo_transcriptome_august2017/db_borrealis_transcriptome_blastn/db_borrealis_transcriptome_blastn -outfmt 6 -evalue 0.05 -query /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/xl_primer_xl_genome_blastn_out_gff_match_sequence.fa -out /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/xl_gene_xb_transcriptome_blastn_out.tsv
 ```
 
 

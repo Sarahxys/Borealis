@@ -21,19 +21,24 @@ TTCTGAGCAGACTTTGTGAC
 GCTGCCAGAGGCTTGGATAT
 >vlg1_reverse
 ACTTGCTCTGCTTGCGATTG
->cyp17a1
+>cyp17a1_forward
 TGAGTGACAGGAGAATTCTG
->cyp17a1
+>cyp17a1_reverse
 CGGTGCTACAGGGCGAATGC
 ```
 
 ## Blastn
 To build blastn database for borealise transcriptomes
 ```
+#indexing borealis de novo assembly done in oct 2018 
+
+
+#indexing borealis de novo assembly done in oct 2018 
 makeblastdb -in /home/xue/borealis_transcriptome/borealis_denovo_transcriptome_oct2018/borealis_denovo_oct2018_trinityout.Trinity.fasta -dbtype nucl -out /home/xue/borealis_transcriptome/borealis_denovo_transcriptome_oct2018/db_blastn_borealis_denovo_transcriptome_oct2018
 ```
 The path to the blastn database for borealise transcriptomes is 
 ```
+#borealis de novo assembly done in oct 2018 
 /home/xue/borealis_transcriptome/borealis_denovo_transcriptome_oct2018/db_blastn_borealis_denovo_transcriptome_oct2018
 ```
 blastn the primer sequence to the blastn database
@@ -86,31 +91,9 @@ time blastn -task blastn -db /home/xue/genome_data/laevis_genome/db_blastn_laevi
 
 # Second way to do it
 ## steps
-- [x] make a fasta file with the primer sequences
 - [x] blast the primer sequence to the laevis genome blastn database
 - [ ] find the orthologs
 - [ ] extract the sequence of the ortholog transcript 
-
-## Primer sequence file
-the path to the file
-```
-/home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/xl_pcr_primer.fa
-```
-the file:
-```
->ef1a_forward
-CCAGATTGGTGCTGGATATG
->ef1a_reverse
-TTCTGAGCAGACTTTGTGAC
->vlg1_forward
-GCTGCCAGAGGCTTGGATAT
->vlg1_reverse
-ACTTGCTCTGCTTGCGATTG
->cyp17a1
-TGAGTGACAGGAGAATTCTG
->cyp17a1
-CGGTGCTACAGGGCGAATGC
-```
 
 ## blastn
 blastn the primer sequence to the laevis xl9_2 genome
@@ -139,17 +122,29 @@ identify the annotation of the xl genomic region that the primers aligned to
 ```
 perl ~/script/identify_aligned_annotated_gene.pl > xl_primer_xl_genome_blastn_out_gff_match.tsv 
 ```
-There are mutiple genes that ef1a aligned to, but we just want the ef1a gene and not other potential genes. Hence, a simple filtering step to select only one that match to what we want. 
+There are mutiple genes that ef1a aligned to, but we just want the ef1a gene and not other potential genes. Hence, a simple filtering step to select only one that match to what we want. I checked the result, it is good that each pair of forward and reversed aligned to the same anotated gene.
 ```
 awk '$11 ~ /ef1a/||$11~/ddx4/||$11~/cyp17/{print}' xl_primer_xl_genome_blastn_out_gff_match.tsv > xl_primer_xl_genome_blastn_out_gff_exactmatch.tsv
 ```
+Below is the result of the above alignment
+```
+cyp17a1_Scaffold61_424029_424048  Scaffold61:418534-437428  ID=gene632;Name=cyp17a1
+cyp17a1_Scaffold61_424102_424083  Scaffold61:418534-437428  ID=gene632;Name=cyp17a1
+ef1a_forward_chr5S_73756436_73756455  chr5S:73752902-73758300 ID=gene3404;Name=eef1a1
+ef1a_reverse_chr5S_73756840_73756821  chr5S:73752902-73758300 ID=gene3404;Name=eef1a1
+vlg1_forward_chr1L_195224567_195224548  chr1L:195218346-195274156 ID=gene16823;Name=ddx4
+vlg1_reverse_chr1L_195218533_195218552  chr1L:195218346-195274156 ID=gene16823;Name=ddx4
+```
+Next, I extracted the sequence of the genes (exons only). I have a fasta file which contains the transcribed sequence of each gene. For some reason, when I generated this file, the starting position of each gene were minus by 1bp. Hence, to extract the right sequence, I manually changed the starting position of each gene. (ex, changed Scaffold61:418534-437428 to Scaffold61:418533-437428) 
+```
+#changed the starting coordinate 
+vi xl_primer_xl_genome_blastn_out_gff_exactmatch.tsv
+
+#extract the sequence of the gene
+perl ~/script/extract_sequence.pl /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_with_exactmatchOnly/xl_primer_xl_genome_blastn_out_gff_exactmatch.tsv /home/xue/genome_data/laevis_genome/gff3_xl9_2/XENLA_gene_noIntro.fa  2 > /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_with_exactmatchOnly/xl_primer_xl_genome_gffGenes_seq.fa
+```
 
 ## borealise orthologs
-
-identify the 
-```
-chr1L:195218346-195274156 
-```
 
 borealise transcriptome blastn index
 ```
@@ -157,22 +152,61 @@ borealise transcriptome blastn index
 ```
 blastn xl gene to borealis
 ```
-time blastn -task blastn -db /home/xue/borealis_transcriptome/borealis_denovo_transcriptome_august2017/db_borrealis_transcriptome_blastn/db_borrealis_transcriptome_blastn -outfmt 6 -evalue 0.05 -query /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/xl_primer_xl_genome_blastn_out_gff_match_sequence.fa -out /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/xl_gene_xb_transcriptome_blastn_out.tsv
+time blastn -task blastn -db /home/xue/borealis_transcriptome/borealis_denovo_transcriptome_august2017/db_borrealis_transcriptome_blastn/db_borrealis_transcriptome_blastn -outfmt 6 -evalue 0.05 -query /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_with_exactmatchOnly/xl_primer_xl_genome_gffGenes_seq.fa -out /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_with_exactmatchOnly/xl_gene_xb_transcriptome_blastn_out.tsv
 ```
 extract borealis transcripts that xl gene aligned to 
 ```
-perl ~/script/extract_sequence.pl xl_gene_xb_transcriptome_blastn_out.tsv ~/borealis_transcriptome/borealis_denovo_transcriptome_august2017/trinity_out_dir.Trinity.fasta 2 > /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/xl_gene_xb_transcriptome_blastnOut_xbSeq.fa
+perl ~/script/extract_sequence.pl xl_gene_xb_transcriptome_blastn_out.tsv ~/borealis_transcriptome/borealis_denovo_transcriptome_august2017/trinity_out_dir.Trinity.fasta 2 > /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_with_exactmatchOnly/xl_gene_xb_transcriptome_blastnOut_xbSeq.fa
 ```
 blastn xl_primer to the extracted borealis transcripts
 ```
 #build index
-makeblastdb -in /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/xl_gene_xb_transcriptome_blastnOut_xbSeq.fa -dbtype nucl -out /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/db_xl_gene_xb_transcriptome_blastnOut_xbSeq_blastn
+makeblastdb -in /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_with_exactmatchOnly/xl_gene_xb_transcriptome_blastnOut_xbSeq.faxl_gene_xb_transcriptome_blastnOut_xbSeq.fa -dbtype nucl -out /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_with_exactmatchOnly/xl_gene_xb_transcriptome_blastnOut_xbSeq.fadb_xl_gene_xb_transcriptome_blastnOut_xbSeq_blastn
 
 #blastn
-time blastn -task blastn -db /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/db_xl_gene_xb_transcriptome_blastnOut_xbSeq_blastn -outfmt 6 -evalue 0.05 -query /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/xl_pcr_primer.fa -out /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/xl_pcr_primer_xb_orthTrans_blastn_out.tsv
+time blastn -task blastn -db /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/db_xl_gene_xb_transcriptome_blastnOut_xbSeq_blastn -outfmt 6 -evalue 0.05 -query /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/xl_pcr_primer.fa -out /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_with_exactmatchOnly/xl_pcr_primer_xb_orthTrans_blastn_out.tsv
 ```
 Blast out result
 ```
+ef1a_forward    TRINITY_DN148887_c4_g3_i13      100.000 20      0       0       1       20      112     93      3.99e-05        37.4
+ef1a_forward    TRINITY_DN148887_c4_g3_i10      100.000 20      0       0       1       20      112     93      3.99e-05        37.4
+ef1a_forward    TRINITY_DN148887_c4_g3_i9       100.000 20      0       0       1       20      112     93      3.99e-05        37.4
+ef1a_forward    TRINITY_DN148887_c4_g3_i8       100.000 20      0       0       1       20      112     93      3.99e-05        37.4
+ef1a_forward    TRINITY_DN148887_c4_g3_i6       100.000 20      0       0       1       20      112     93      3.99e-05        37.4
+ef1a_forward    TRINITY_DN148887_c4_g3_i5       100.000 20      0       0       1       20      97      78      3.99e-05        37.4
+ef1a_forward    TRINITY_DN148887_c4_g3_i4       100.000 20      0       0       1       20      49      30      3.99e-05        37.4
+ef1a_forward    TRINITY_DN148887_c4_g3_i3       100.000 20      0       0       1       20      112     93      3.99e-05        37.4
+ef1a_forward    TRINITY_DN148887_c4_g3_i2       95.000  20      1       0       1       20      112     93      0.002   31.9
+ef1a_reverse    TRINITY_DN148887_c4_g2_i3       100.000 20      0       0       1       20      246     227     3.99e-05        37.4
+ef1a_reverse    TRINITY_DN148887_c4_g1_i2       100.000 20      0       0       1       20      236     217     3.99e-05        37.4
+ef1a_reverse    TRINITY_DN148887_c4_g1_i1       100.000 20      0       0       1       20      231     212     3.99e-05        37.4
+vlg1_forward    TRINITY_DN144511_c3_g1_i12      100.000 20      0       0       1       20      1946    1965    3.99e-05        37.4
+vlg1_forward    TRINITY_DN144511_c3_g1_i5       100.000 20      0       0       1       20      2145    2164    3.99e-05        37.4
+vlg1_forward    TRINITY_DN144511_c3_g1_i1       100.000 20      0       0       1       20      2316    2335    3.99e-05        37.4
+vlg1_forward    TRINITY_DN144511_c3_g1_i17      95.000  20      1       0       1       20      2316    2335    0.002   31.9
+vlg1_forward    TRINITY_DN144511_c3_g1_i11      95.000  20      1       0       1       20      1946    1965    0.002   31.9
+vlg1_forward    TRINITY_DN144511_c3_g1_i6       95.000  20      1       0       1       20      2145    2164    0.002   31.9
+vlg1_forward    TRINITY_DN144511_c3_g1_i3       95.000  20      1       0       1       20      1702    1721    0.002   31.9
+cyp17a1_forward TRINITY_DN118693_c4_g1_i12      100.000 19      0       0       1       19      1839    1857    1.39e-04        35.6
+cyp17a1_forward TRINITY_DN118693_c4_g1_i11      100.000 19      0       0       1       19      1837    1855    1.39e-04        35.6
+cyp17a1_forward TRINITY_DN118693_c4_g1_i9       100.000 19      0       0       1       19      1720    1738    1.39e-04        35.6
+cyp17a1_forward TRINITY_DN118693_c4_g1_i8       100.000 19      0       0       1       19      1839    1857    1.39e-04        35.6
+cyp17a1_forward TRINITY_DN118693_c4_g1_i7       100.000 19      0       0       1       19      1720    1738    1.39e-04        35.6
+cyp17a1_forward TRINITY_DN118693_c4_g1_i6       100.000 19      0       0       1       19      466     484     1.39e-04        35.6
+cyp17a1_forward TRINITY_DN118693_c4_g1_i4       100.000 19      0       0       1       19      347     365     1.39e-04        35.6
+cyp17a1_forward TRINITY_DN118693_c4_g1_i3       100.000 19      0       0       1       19      1720    1738    1.39e-04        35.6
+cyp17a1_forward TRINITY_DN118693_c4_g1_i2       100.000 19      0       0       1       19      1718    1736    1.39e-04        35.6
+cyp17a1_forward TRINITY_DN118693_c4_g1_i1       100.000 19      0       0       1       19      1839    1857    1.39e-04        35.6
+cyp17a1_reverse TRINITY_DN118693_c4_g1_i12      100.000 20      0       0       1       20      1912    1893    3.99e-05        37.4
+cyp17a1_reverse TRINITY_DN118693_c4_g1_i11      100.000 20      0       0       1       20      1910    1891    3.99e-05        37.4
+cyp17a1_reverse TRINITY_DN118693_c4_g1_i9       100.000 20      0       0       1       20      1793    1774    3.99e-05        37.4
+cyp17a1_reverse TRINITY_DN118693_c4_g1_i8       100.000 20      0       0       1       20      1912    1893    3.99e-05        37.4
+cyp17a1_reverse TRINITY_DN118693_c4_g1_i7       100.000 20      0       0       1       20      1793    1774    3.99e-05        37.4
+cyp17a1_reverse TRINITY_DN118693_c4_g1_i6       100.000 20      0       0       1       20      539     520     3.99e-05        37.4
+cyp17a1_reverse TRINITY_DN118693_c4_g1_i4       100.000 20      0       0       1       20      420     401     3.99e-05        37.4
+cyp17a1_reverse TRINITY_DN118693_c4_g1_i3       100.000 20      0       0       1       20      1793    1774    3.99e-05        37.4
+cyp17a1_reverse TRINITY_DN118693_c4_g1_i2       100.000 20      0       0       1       20      1791    1772    3.99e-05        37.4
+cyp17a1_reverse TRINITY_DN118693_c4_g1_i1       100.000 20      0       0       1       20      1912    1893    3.99e-05        37.4
 
 ```
 

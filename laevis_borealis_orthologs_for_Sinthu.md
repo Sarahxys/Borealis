@@ -207,6 +207,7 @@ perl ~/script/extract_sequence.pl xl_pcr_primer_xb_orthTrans_blastn_out.tsv ~/bo
 
 repeat the above with GMAP to double check
 ```
+gmap_build -D /home/xue/genome_data/laevis_genome/db_gmap_xl91 -s none -g -d laevis91_gmap ../Xla.v91.fa.gz
 
 ```
 

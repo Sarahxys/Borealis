@@ -135,8 +135,22 @@ vlg1_reverse    chr1L   100.000 20      0       0       1       20      19521853
 cyp17a1 Scaffold61      100.000 20      0       0       1       20      424102  424083  0.046   37.4
 cyp17a1 Scaffold61      100.000 20      0       0       1       20      424029  424048  0.046   37.4
 ```
+identify the annotation of the xl genomic region that the primers aligned to
+```
+perl ~/script/identify_aligned_annotated_gene.pl > xl_primer_xl_genome_blastn_out_gff_match.tsv 
+```
+There are mutiple genes that ef1a aligned to, but we just want the ef1a gene and not other potential genes. Hence, a simple filtering step to select only one that match to what we want. 
+```
+awk '$11 ~ /ef1a/||$11~/ddx4/||$11~/cyp17/{print}' xl_primer_xl_genome_blastn_out_gff_match.tsv > xl_primer_xl_genome_blastn_out_gff_exactmatch.tsv
+```
 
 ## borealise orthologs
+
+identify the 
+```
+chr1L:195218346-195274156 
+```
+
 borealise transcriptome blastn index
 ```
 /home/xue/borealis_transcriptome/borealis_denovo_transcriptome_august2017/db_borrealis_transcriptome_blastn/db_borrealis_transcriptome_blastn
@@ -159,45 +173,7 @@ time blastn -task blastn -db /home/xue/others_side_project/laevis_primer_boreali
 ```
 Blast out result
 ```
-ef1a_forward    TRINITY_DN148887_c4_g3_i13      100.000 20      0       0       1       20      112     93      3.99e-05        37.4
-ef1a_forward    TRINITY_DN148887_c4_g3_i10      100.000 20      0       0       1       20      112     93      3.99e-05        37.4
-ef1a_forward    TRINITY_DN148887_c4_g3_i9       100.000 20      0       0       1       20      112     93      3.99e-05        37.4
-ef1a_forward    TRINITY_DN148887_c4_g3_i8       100.000 20      0       0       1       20      112     93      3.99e-05        37.4
-ef1a_forward    TRINITY_DN148887_c4_g3_i6       100.000 20      0       0       1       20      112     93      3.99e-05        37.4
-ef1a_forward    TRINITY_DN148887_c4_g3_i5       100.000 20      0       0       1       20      97      78      3.99e-05        37.4
-ef1a_forward    TRINITY_DN148887_c4_g3_i4       100.000 20      0       0       1       20      49      30      3.99e-05        37.4
-ef1a_forward    TRINITY_DN148887_c4_g3_i3       100.000 20      0       0       1       20      112     93      3.99e-05        37.4
-ef1a_forward    TRINITY_DN148887_c4_g3_i2       95.000  20      1       0       1       20      112     93      0.002   31.9
-ef1a_reverse    TRINITY_DN148887_c4_g2_i3       100.000 20      0       0       1       20      246     227     3.99e-05        37.4
-ef1a_reverse    TRINITY_DN148887_c4_g1_i2       100.000 20      0       0       1       20      236     217     3.99e-05        37.4
-ef1a_reverse    TRINITY_DN148887_c4_g1_i1       100.000 20      0       0       1       20      231     212     3.99e-05        37.4
-vlg1_forward    TRINITY_DN144511_c3_g1_i12      100.000 20      0       0       1       20      1946    1965    3.99e-05        37.4
-vlg1_forward    TRINITY_DN144511_c3_g1_i5       100.000 20      0       0       1       20      2145    2164    3.99e-05        37.4
-vlg1_forward    TRINITY_DN144511_c3_g1_i1       100.000 20      0       0       1       20      2316    2335    3.99e-05        37.4
-vlg1_forward    TRINITY_DN144511_c3_g1_i17      95.000  20      1       0       1       20      2316    2335    0.002   31.9
-vlg1_forward    TRINITY_DN144511_c3_g1_i11      95.000  20      1       0       1       20      1946    1965    0.002   31.9
-vlg1_forward    TRINITY_DN144511_c3_g1_i6       95.000  20      1       0       1       20      2145    2164    0.002   31.9
-vlg1_forward    TRINITY_DN144511_c3_g1_i3       95.000  20      1       0       1       20      1702    1721    0.002   31.9
-cyp17a1 TRINITY_DN118693_c4_g1_i12      100.000 19      0       0       1       19      1839    1857    1.39e-04        35.6
-cyp17a1 TRINITY_DN118693_c4_g1_i11      100.000 19      0       0       1       19      1837    1855    1.39e-04        35.6
-cyp17a1 TRINITY_DN118693_c4_g1_i9       100.000 19      0       0       1       19      1720    1738    1.39e-04        35.6
-cyp17a1 TRINITY_DN118693_c4_g1_i8       100.000 19      0       0       1       19      1839    1857    1.39e-04        35.6
-cyp17a1 TRINITY_DN118693_c4_g1_i7       100.000 19      0       0       1       19      1720    1738    1.39e-04        35.6
-cyp17a1 TRINITY_DN118693_c4_g1_i6       100.000 19      0       0       1       19      466     484     1.39e-04        35.6
-cyp17a1 TRINITY_DN118693_c4_g1_i4       100.000 19      0       0       1       19      347     365     1.39e-04        35.6
-cyp17a1 TRINITY_DN118693_c4_g1_i3       100.000 19      0       0       1       19      1720    1738    1.39e-04        35.6
-cyp17a1 TRINITY_DN118693_c4_g1_i2       100.000 19      0       0       1       19      1718    1736    1.39e-04        35.6
-cyp17a1 TRINITY_DN118693_c4_g1_i1       100.000 19      0       0       1       19      1839    1857    1.39e-04        35.6
-cyp17a1 TRINITY_DN118693_c4_g1_i12      100.000 20      0       0       1       20      1912    1893    3.99e-05        37.4
-cyp17a1 TRINITY_DN118693_c4_g1_i11      100.000 20      0       0       1       20      1910    1891    3.99e-05        37.4
-cyp17a1 TRINITY_DN118693_c4_g1_i9       100.000 20      0       0       1       20      1793    1774    3.99e-05        37.4
-cyp17a1 TRINITY_DN118693_c4_g1_i8       100.000 20      0       0       1       20      1912    1893    3.99e-05        37.4
-cyp17a1 TRINITY_DN118693_c4_g1_i7       100.000 20      0       0       1       20      1793    1774    3.99e-05        37.4
-cyp17a1 TRINITY_DN118693_c4_g1_i6       100.000 20      0       0       1       20      539     520     3.99e-05        37.4
-cyp17a1 TRINITY_DN118693_c4_g1_i4       100.000 20      0       0       1       20      420     401     3.99e-05        37.4
-cyp17a1 TRINITY_DN118693_c4_g1_i3       100.000 20      0       0       1       20      1793    1774    3.99e-05        37.4
-cyp17a1 TRINITY_DN118693_c4_g1_i2       100.000 20      0       0       1       20      1791    1772    3.99e-05        37.4
-cyp17a1 TRINITY_DN118693_c4_g1_i1       100.000 20      0       0       1       20      1912    1893    3.99e-05        37.4
+
 ```
 
 extract borealis transcript sequences that the primers aligned to

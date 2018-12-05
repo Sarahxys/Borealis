@@ -216,39 +216,54 @@ perl ~/script/extract_sequence.pl /home/xue/others_side_project/laevis_primer_bo
 **Repeat with GMAP**
 
 repeat the above with GMAP to double check
-```
-#indexing borealis transcriptome
-gmap_build -D /home/xue/genome_data/laevis_genome/db_gmap_xl91 -s none -g -d laevis91_gmap ../Xla.v91.fa.gz
-
+```bash
 #indexing the 3 xl gene
-/home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_withGmap -s none -g -d db_xl_3_gffGenes_gmap  /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_with_exactmatchOnly/xl_primer_xl_genome_gffGenes_seq.fa
+gmap_build -D /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_withGmap -s none -d db_xl_3_gffGenes_gmap  /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_with_exactmatchOnly/xl_primer_xl_genome_gffGenes_seq.fa
+
+#indexing the borealis genome with GMAP
+gmap_build -D /home/xue/borealis_transcriptome/borealis_denovo_transcriptome_august2017/db_borrealis_transcriptome_gmap/ -s none -d db_borrealis_transcriptome_gmap  /home/xue/borealis_transcriptome/borealis_denovo_transcriptome_august2017/trinity_out_dir.Trinity.fasta
 ```
 
-blastn xl gene to borealis
-```
-time blastn -task blastn -db /home/xue/borealis_transcriptome/borealis_denovo_transcriptome_august2017/db_borrealis_transcriptome_blastn/db_borrealis_transcriptome_blastn -outfmt 6 -evalue 0.05 -query /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_with_exactmatchOnly/xl_primer_xl_genome_gffGenes_seq.fa -out /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_with_exactmatchOnly/xl_gene_xb_transcriptome_blastn_out.tsv
+align borealis transcriptome to the xl genes
+```bash
+#align borealis transcriptome to the xl genes -> didn't find any match
+time gmap -d db_xl_3_gffGenes_gmap -D /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_withGmap -A -B 5 -t 24 -f samse --cross-species /home/xue/borealis_transcriptome/borealis_denovo_transcriptome_august2017/trinity_out_dir.Trinity.fasta | samtools view -S -b > home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_withGmap/xb_transcriptome_xl_gene_gmap.bam
+
+#align xl gene to borealis transcriptome
+time gmap -D /home/xue/borealis_transcriptome/borealis_denovo_transcriptome_august2017/db_borrealis_transcriptome_gmap/ -d db_borrealis_transcriptome_gmap -A -B 5 -t 24 -f samse --cross-species /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_with_exactmatchOnly/xl_primer_xl_genome_gffGenes_seq.fa > /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_withGmap/xl_gene_xb_transcriptome_gmap.sam
+
+samtools view -S -b /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_withGmap/xl_gene_xb_transcriptome_gmap.sam > /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_withGmap/xl_gene_xb_transcriptome_gmap.bam
 ```
 extract borealis transcripts that xl gene aligned to 
 ```
-perl ~/script/extract_sequence.pl xl_gene_xb_transcriptome_blastn_out.tsv ~/borealis_transcriptome/borealis_denovo_transcriptome_august2017/trinity_out_dir.Trinity.fasta 2 > /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_with_exactmatchOnly/xl_gene_xb_transcriptome_blastnOut_xbSeq.fa
+perl ~/script/extract_sequence.pl /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_withGmap/xl_gene_xb_transcriptome_gmap.bam ~/borealis_transcriptome/borealis_denovo_transcriptome_august2017/trinity_out_dir.Trinity.fasta 3 > /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_withGmap/xl_gene_xb_transcriptome_gmapOut_xbSeq.fa
 ```
 blastn xl_primer to the extracted borealis transcripts
 ```
 #build index
-makeblastdb -in /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_with_exactmatchOnly/xl_gene_xb_transcriptome_blastnOut_xbSeq.fa -dbtype nucl -out /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_with_exactmatchOnly/db_xl_gene_xb_transcriptome_blastnOut_xbSeq_blastn
+makeblastdb -in /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_withGmap/xl_gene_xb_transcriptome_gmapOut_xbSeq.fa -dbtype nucl -out /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_withGmap/db_xl_gene_xb_transcriptome_gmapOut_xbSeq_blastn
 
 #blastn
-time blastn -task blastn -db /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_with_exactmatchOnly/db_xl_gene_xb_transcriptome_blastnOut_xbSeq_blastn -outfmt 6 -evalue 0.05 -query /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/xl_pcr_primer.fa -out /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_with_exactmatchOnly/xl_pcr_primer_xb_orthTrans_blastn_out.tsv
+time blastn -task blastn -db /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_withGmap/db_xl_gene_xb_transcriptome_gmapOut_xbSeq_blastn -outfmt 6 -evalue 0.05 -query /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/xl_pcr_primer.fa -out /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_withGmap/xl_pcr_primer_xb_orthTrans_blastn_out.tsv
 ```
-Blast out result
+alignment result
 ```
-
+ef1a_forward    TRINITY_DN148887_c4_g3_i3       100.000 20      0       0       1       20      112     93      4.97e-07        37.4
+ef1a_reverse    TRINITY_DN148887_c4_g2_i3       100.000 20      0       0       1       20      246     227     4.97e-07        37.4
+vlg1_forward    TRINITY_DN144511_c3_g1_i12      100.000 20      0       0       1       20      1946    1965    4.97e-07        37.4
+cyp17a1_forward TRINITY_DN118693_c4_g1_i8       100.000 19      0       0       1       19      1839    1857    1.73e-06        35.6
+cyp17a1_reverse TRINITY_DN118693_c4_g1_i8       100.000 20      0       0       1       20      1912    1893    4.97e-07        37.4
 ```
 
 extract borealis transcript sequences that the primers aligned to
 ```
-perl ~/script/extract_sequence.pl /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_with_exactmatchOnly/xl_pcr_primer_xb_orthTrans_blastn_out.tsv ~/borealis_transcriptome/borealis_denovo_transcriptome_august2017/trinity_out_dir.Trinity.fasta 2 > /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_with_exactmatchOnly/xl_pcr_primer_xb_orthTrans_blastn_out_xbSeq.tsv
+same as xl_gene_xb_transcriptome_gmapOut_xbSeq.fa 
 ```
 
-
+# orthologs in X. borealis genome
+map the xl gene sequence to the X. borealis genome using GMAP (a splice aware aligner)
+```
+#indexing the 3 xl gene
+gmap_build -D /home/xue/genome/borealis_genome/db_borealis_genome_gmap -s none -g -d db_xl_3_gffGenes_gmap  /home/xue/genome/borealis_genome
+```
 

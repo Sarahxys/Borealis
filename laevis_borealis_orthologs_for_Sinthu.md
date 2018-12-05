@@ -135,11 +135,8 @@ ef1a_reverse_chr5S_73756840_73756821  chr5S:73752902-73758300 ID=gene3404;Name=e
 vlg1_forward_chr1L_195224567_195224548  chr1L:195218346-195274156 ID=gene16823;Name=ddx4
 vlg1_reverse_chr1L_195218533_195218552  chr1L:195218346-195274156 ID=gene16823;Name=ddx4
 ```
-Next, I extracted the sequence of the genes (exons only). I have a fasta file which contains the transcribed sequence of each gene. For some reason, when I generated this file, the starting position of each gene were minus by 1bp. Hence, to extract the right sequence, I manually changed the starting position of each gene. (ex, changed Scaffold61:418534-437428 to Scaffold61:418533-437428) 
+Next, I extracted the sequence of the genes (exons only). I have a fasta file which contains the transcribed sequence of each gene. The gene file was build with `perl ~/script/gff2fasta_gene_allExons.pl ../XL9_2.fa XENLA_9.2_Xenbase.gff3`.
 ```
-#changed the starting coordinate 
-vi xl_primer_xl_genome_blastn_out_gff_exactmatch.tsv
-
 #extract the sequence of the gene
 perl ~/script/extract_sequence.pl /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_with_exactmatchOnly/xl_primer_xl_genome_blastn_out_gff_exactmatch.tsv /home/xue/genome_data/laevis_genome/gff3_xl9_2/XENLA_gene_noIntro.fa  2 > /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_with_exactmatchOnly/xl_primer_xl_genome_gffGenes_seq.fa
 ```
@@ -216,11 +213,41 @@ extract borealis transcript sequences that the primers aligned to
 ```
 perl ~/script/extract_sequence.pl /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_with_exactmatchOnly/xl_pcr_primer_xb_orthTrans_blastn_out.tsv ~/borealis_transcriptome/borealis_denovo_transcriptome_august2017/trinity_out_dir.Trinity.fasta 2 > /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_with_exactmatchOnly/xl_pcr_primer_xb_orthTrans_blastn_out_xbSeq.tsv
 ```
+**Repeat with GMAP**
 
 repeat the above with GMAP to double check
 ```
+#indexing borealis transcriptome
 gmap_build -D /home/xue/genome_data/laevis_genome/db_gmap_xl91 -s none -g -d laevis91_gmap ../Xla.v91.fa.gz
 
+#indexing the 3 xl gene
+/home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_withGmap -s none -g -d db_xl_3_gffGenes_gmap  /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_with_exactmatchOnly/xl_primer_xl_genome_gffGenes_seq.fa
+```
+
+blastn xl gene to borealis
+```
+time blastn -task blastn -db /home/xue/borealis_transcriptome/borealis_denovo_transcriptome_august2017/db_borrealis_transcriptome_blastn/db_borrealis_transcriptome_blastn -outfmt 6 -evalue 0.05 -query /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_with_exactmatchOnly/xl_primer_xl_genome_gffGenes_seq.fa -out /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_with_exactmatchOnly/xl_gene_xb_transcriptome_blastn_out.tsv
+```
+extract borealis transcripts that xl gene aligned to 
+```
+perl ~/script/extract_sequence.pl xl_gene_xb_transcriptome_blastn_out.tsv ~/borealis_transcriptome/borealis_denovo_transcriptome_august2017/trinity_out_dir.Trinity.fasta 2 > /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_with_exactmatchOnly/xl_gene_xb_transcriptome_blastnOut_xbSeq.fa
+```
+blastn xl_primer to the extracted borealis transcripts
+```
+#build index
+makeblastdb -in /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_with_exactmatchOnly/xl_gene_xb_transcriptome_blastnOut_xbSeq.fa -dbtype nucl -out /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_with_exactmatchOnly/db_xl_gene_xb_transcriptome_blastnOut_xbSeq_blastn
+
+#blastn
+time blastn -task blastn -db /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_with_exactmatchOnly/db_xl_gene_xb_transcriptome_blastnOut_xbSeq_blastn -outfmt 6 -evalue 0.05 -query /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/xl_pcr_primer.fa -out /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_with_exactmatchOnly/xl_pcr_primer_xb_orthTrans_blastn_out.tsv
+```
+Blast out result
+```
+
+```
+
+extract borealis transcript sequences that the primers aligned to
+```
+perl ~/script/extract_sequence.pl /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_with_exactmatchOnly/xl_pcr_primer_xb_orthTrans_blastn_out.tsv ~/borealis_transcriptome/borealis_denovo_transcriptome_august2017/trinity_out_dir.Trinity.fasta 2 > /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_with_exactmatchOnly/xl_pcr_primer_xb_orthTrans_blastn_out_xbSeq.tsv
 ```
 
 

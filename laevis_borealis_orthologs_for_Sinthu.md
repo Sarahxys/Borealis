@@ -275,9 +275,9 @@ bedtools bamtobed -i xl_gene_xb_genome_gmap.bam > xl_gene_xb_genome_gmap.bed
 extract sequence 
 ```
 #index the borealis genome fasta file
-gunzip Xbo.v1.fa.gz| samtools faidx
+gunzip Xbo.v1.fa.gz
 
-bedtools getfasta -fi ~/genome_data/borealis_genome/Xbo.v1.fa.gz -bed xl_gene_xb_genome_gmap.bed -fo xl_gene_xb_genome_gmap_bed.fa
+bedtools getfasta -fi ~/genome_data/borealis_genome/Xbo.v1.fa -bed xl_gene_xb_genome_gmap.bed -fo xl_gene_xb_genome_gmap_bed.fa
 ```
 
 

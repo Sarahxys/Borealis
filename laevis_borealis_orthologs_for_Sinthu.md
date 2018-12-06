@@ -265,5 +265,7 @@ map the xl gene sequence to the X. borealis genome using GMAP (a splice aware al
 ```
 #indexing the borealis genome
 gmap_build -D /home/xue/genome_data/borealis_genome/db_borealis_genome_v1_gmap -s none -g -d db_borealis_genome_v1_gmap  /home/xue/genome_data/borealis_genome/Xbo.v1.fa.gz
+
+time gmap -D /home/xue/genome_data/borealis_genome/db_borealis_genome_v1_gmap -d db_borealis_genome_v1_gmap -A -B 5 -t 24 -f samse --cross-species /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_with_exactmatchOnly/xl_primer_xl_genome_gffGenes_seq.fa > /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_withGmap/xl_gene_xb_genome_gmap.sam
 ```
 

@@ -92,8 +92,8 @@ time blastn -task blastn -db /home/xue/genome_data/laevis_genome/db_blastn_laevi
 # Second way to do it
 ## steps
 - [x] blast the primer sequence to the laevis genome blastn database
-- [ ] find the orthologs
-- [ ] extract the sequence of the ortholog transcript 
+- [x] find the orthologs
+- [x] extract the sequence of the ortholog transcript 
 
 ## blastn
 blastn the primer sequence to the laevis xl9_2 genome
@@ -211,7 +211,7 @@ cyp17a1_reverse TRINITY_DN118693_c4_g1_i1       100.000 20      0       0       
 
 extract borealis transcript sequences that the primers aligned to
 ```
-perl ~/script/extract_sequence.pl /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_with_exactmatchOnly/xl_pcr_primer_xb_orthTrans_blastn_out.tsv ~/borealis_transcriptome/borealis_denovo_transcriptome_august2017/trinity_out_dir.Trinity.fasta 2 > /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_with_exactmatchOnly/xl_pcr_primer_xb_orthTrans_blastn_out_xbSeq.tsv
+perl ~/script/extract_sequence.pl /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_with_exactmatchOnly/xl_pcr_primer_xb_orthTrans_blastn_out.tsv ~/borealis_transcriptome/borealis_denovo_transcriptome_august2017/trinity_out_dir.Trinity.fasta 2 > /home/xue/others_side_project/laevis_primer_borealis_orthologs_sinthu/repeat_with_exactmatchOnly/xl_pcr_primer_xb_orthTrans_blastn_out_xbSeq.fa
 ```
 **Repeat with GMAP**
 
